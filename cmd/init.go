@@ -22,30 +22,37 @@ type Config struct {
 	// Unexported fields.
 }
 
+var inf string
+var cont string
+var contOrch string
+var cProv string
+var cicd string
+var servConf string
+var monit string
+
 var initCmd = &cobra.Command{
+
 	Use:   "init",
 	Short: "Inits the brahma repository",
 	Long:  `Inits the brahma repository with the default configuration`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		myConfig := Config{
-			Infrastructure:         "terraform",
-			Containers:             "docker",
-			ContainerOrchestration: "kubernetes",
-			CloudProvider:          "aws",
-			CicdPipeline:           "jenkins",
-			ServerConfig:           "ansible",
-			Monitoring:             "grafana",
+			Infrastructure: inf,
+			Containers: cont,
+			ContainerOrchestration: contOrch,
+			CloudProvider: cProv,
+			CicdPipeline: cicd,
+			ServerConfig: servConf,     
+			Monitoring: monit,
 		}
-
-		/* TODO: Here will go any flag to change config */
 
 		jsonConfig, _ := json.MarshalIndent(myConfig, "", "    ")
 
 		file, err := os.Create("brahma.config")
 
 		if err != nil {
-			fmt.Println("There was an error creating the config file")
+			fmt.Println("There was an error creating the config file: ", err)
 		}
 
 		defer file.Close()
@@ -62,5 +69,12 @@ var initCmd = &cobra.Command{
 }
 
 func init() {
+	initCmd.Flags().StringVarP(&inf, "iac", "i", "terraform", "IaC tool to use")
+	initCmd.Flags().StringVarP(&cont, "cont", "c", "docker", "Containerization tool to use")
+	initCmd.Flags().StringVarP(&contOrch, "cont-orch", "o", "kubernetes", "Kubernetes tool to use")
+	initCmd.Flags().StringVarP(&cProv, "cloud-prov", "p", "aws", "Cloud Provider tool to use")
+	initCmd.Flags().StringVarP(&monit, "monitor", "m", "grafana", "Monitoring tool to use")
+	initCmd.Flags().StringVarP(&cicd, "cicd", "d", "jenkins", "CI/CD pipeline tool to use")
+	initCmd.Flags().StringVarP(&servConf, "serv-config", "s", "ansible", "Server configuration tool to use")
 	rootCmd.AddCommand(initCmd)
 }
