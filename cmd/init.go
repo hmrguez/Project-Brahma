@@ -5,22 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"brahma/data"
 
 	"github.com/spf13/cobra"
 )
-
-type Config struct {
-	// Exported fields.
-	Infrastructure         string `json:"infrastructure"`
-	Containers             string `json:"containers"`
-	ContainerOrchestration string `json:"containerOrchestration"`
-	CloudProvider          string `json:"cloudProvider"`
-	CicdPipeline           string `json:"cicdPipeline"`
-	ServerConfig           string `json:"serverConfig"`
-	Monitoring             string `json:"monitoring"`
-
-	// Unexported fields.
-}
 
 var inf string
 var cont string
@@ -37,14 +25,14 @@ var initCmd = &cobra.Command{
 	Long:  `Inits the brahma repository with the default configuration`,
 	Run: func(cmd *cobra.Command, args []string) {
 
-		myConfig := Config{
-			Infrastructure: inf,
-			Containers: cont,
+		myConfig := data.Config{
+			Infrastructure:         inf,
+			Containers:             cont,
 			ContainerOrchestration: contOrch,
-			CloudProvider: cProv,
-			CicdPipeline: cicd,
-			ServerConfig: servConf,     
-			Monitoring: monit,
+			CloudProvider:          cProv,
+			CicdPipeline:           cicd,
+			ServerConfig:           servConf,
+			Monitoring:             monit,
 		}
 
 		jsonConfig, _ := json.MarshalIndent(myConfig, "", "    ")
@@ -58,6 +46,7 @@ var initCmd = &cobra.Command{
 		defer file.Close()
 
 		err = ioutil.WriteFile("brahma.config", jsonConfig, 0644)
+
 		if err != nil {
 			fmt.Println("Error:", err)
 			return
@@ -69,6 +58,11 @@ var initCmd = &cobra.Command{
 }
 
 func init() {
+	flags()
+	rootCmd.AddCommand(initCmd)
+}
+
+func flags() {
 	initCmd.Flags().StringVarP(&inf, "iac", "i", "terraform", "IaC tool to use")
 	initCmd.Flags().StringVarP(&cont, "cont", "c", "docker", "Containerization tool to use")
 	initCmd.Flags().StringVarP(&contOrch, "cont-orch", "o", "kubernetes", "Kubernetes tool to use")
@@ -76,5 +70,4 @@ func init() {
 	initCmd.Flags().StringVarP(&monit, "monitor", "m", "grafana", "Monitoring tool to use")
 	initCmd.Flags().StringVarP(&cicd, "cicd", "d", "jenkins", "CI/CD pipeline tool to use")
 	initCmd.Flags().StringVarP(&servConf, "serv-config", "s", "ansible", "Server configuration tool to use")
-	rootCmd.AddCommand(initCmd)
 }
