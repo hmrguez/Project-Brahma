@@ -1,4 +1,4 @@
-package createIaC
+package createCont
 
 import (
 	"brahma/data"
@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func CreateIaCTemplate(config data.Config, args []string) {
+func CreateContTemplate(config data.Config, args []string) {
 
 	defer func() {
 		if r := recover(); r != nil {
@@ -15,9 +15,9 @@ func CreateIaCTemplate(config data.Config, args []string) {
 	}()
 
 	var template string
-	
-	params := []string{config.Infrastructure, config.CloudProvider, args[0]}
+
+	params := []string{config.Containers, args[0]}
 	template = helper.FetchVariable(strings.Join(params, ""), variables).(string)
 
-	helper.CreateFile("template.tf", template)
+	helper.CreateFile("dockerfile", template)
 }

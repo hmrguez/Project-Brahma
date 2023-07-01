@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	iac "brahma/createIaC"
+	"brahma/createCont"
+	"brahma/createIaC"
 	"brahma/data"
 	"encoding/json"
 	"fmt"
@@ -37,9 +38,9 @@ var createCmd = &cobra.Command{
 
 		switch args[0] {
 		case "iac":
-			iac.CreateIaCTemplate(config, args[1:])
+			createIaC.CreateIaCTemplate(config, args[1:])
 		case "cont":
-			panic("No implementation")
+			createCont.CreateContTemplate(config, args[1:])
 		case "cont-orch":
 			panic("No implementation")
 		default:
