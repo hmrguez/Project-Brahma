@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"brahma/createCont"
+	"brahma/createContOrch"
 	"brahma/createIaC"
 	"brahma/data"
 	"encoding/json"
@@ -42,7 +43,7 @@ var createCmd = &cobra.Command{
 		case "cont":
 			createCont.CreateContTemplate(config, args[1:])
 		case "cont-orch":
-			panic("No implementation")
+			createContOrch.CreateContOrchTemplate(config, args[1:])
 		default:
 			panic("No implementation")
 		}
