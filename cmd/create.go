@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"brahma/createCiCd"
 	"brahma/createCont"
 	"brahma/createContOrch"
 	"brahma/createIaC"
@@ -44,6 +45,8 @@ var createCmd = &cobra.Command{
 			createCont.CreateContTemplate(config, args[1:])
 		case "cont-orch":
 			createContOrch.CreateContOrchTemplate(config, args[1:])
+		case "cicd":
+			createCiCd.CreateCiCdTemplate(config, args[1:])
 		default:
 			panic("No implementation")
 		}
