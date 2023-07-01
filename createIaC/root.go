@@ -8,13 +8,16 @@ import (
 
 func CreateIaCTemplate(config data.Config, args []string) {
 
+	defer func() {
+		if r := recover(); r != nil {
+			panic("Not supported")
+		}
+	}()
+
 	var template string
-	if config.Infrastructure == "terraform" {
-		params := []string{"tf", config.CloudProvider, args[0]}
-		template = helper.FetchVariable(strings.Join(params, ""), variables).(string)
-	} else {
-		panic("Not supported")
-	}
+	
+	params := []string{config.Infrastructure, config.CloudProvider, args[0]}
+	template = helper.FetchVariable(strings.Join(params, ""), variables).(string)
 
 	helper.CreateFile("template.tf", template)
 }

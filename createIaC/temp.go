@@ -1,16 +1,16 @@
 package iac
 
 var variables = map[string]interface{}{
-	"tfazuresimple": tfazuresimple,
-	"tfawssimple":   tfawssimple,
+	"terraformazuresimple": terraformazuresimple,
+	"terraformawssimple":   terraformawssimple,
 }
 
-var tfazuresimple = `
+var terraformazuresimple = `
 	This is a multiline
 	string for azure
 `
 
-var tfawssimple = `
+var terraformawssimple = `
 	This is a multiline
 	string for aws
 `
