@@ -15,9 +15,10 @@ func CreateContOrchTemplate(config data.Config, args []string) {
 	}()
 
 	var template string
+	var name = args[0] + ".yaml"
 
 	params := []string{config.ContainerOrchestration, args[0]}
 	template = helper.FetchVariable(strings.Join(params, ""), variables).(string)
 
-	helper.CreateFile("config.yaml", template)
+	helper.CreateFile(name, template)
 }

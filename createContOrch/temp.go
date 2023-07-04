@@ -1,10 +1,7 @@
 package createContOrch
 
 var variables = map[string]interface{}{
+	"kubernetesdeploy": kubernetesdeploy,
 	"kuberneteslb": kuberneteslb,
 }
 
-var kuberneteslb = `
-This is a multiline
-load balancer for k8s
-`
