@@ -15,9 +15,16 @@ func CreateCiCdTemplate(config data.Config, args []string) {
 	}()
 
 	var template string
+	var name string
 
 	params := []string{config.CicdPipeline, args[0]}
 	template = helper.FetchVariable(strings.Join(params, ""), variables).(string)
 
-	helper.CreateFile("automation.yaml", template)
+	if config.CicdPipeline == "jenkins" {
+		name = "jenkinsfile"
+	} else {
+		name = "azure-pipeline.yaml"
+	}
+
+	helper.CreateFile(name, template)
 }
