@@ -1,4 +1,5 @@
 # Go
+
 # Build your Go project.
 # Add steps that test, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/go
@@ -42,3 +43,13 @@ steps:
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
 
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_hmrguez'
+    repositoryName: 'hmrguez/Project-Brahma'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    tagPattern: '0.*'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
